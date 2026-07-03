@@ -1,73 +1,237 @@
-/* সাধারণ সেটআপ */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5;
-    margin: 0;
-    padding: 0;
-    color: #333;
+/* ============================================
+   SylNet Design System — v1.0
+   "আমরা হখল ছিলটি"
+   ============================================ */
+
+:root{
+  --green:#0A8F5A;
+  --green-deep:#087A4C;
+  --green-tint:#E5F5EE;
+  --bg:#F7F9FB;
+  --card:#FFFFFF;
+  --text:#202124;
+  --text-soft:#6B7280;
+  --border:#E9ECEF;
+  --radius:18px;
+  --radius-sm:12px;
+  --shadow:0 1px 3px rgba(16,24,32,0.06);
 }
 
-/* হেডার ডিজাইন */
+*{ box-sizing:border-box; }
+
+body {
+  font-family: 'Noto Sans Bengali', 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg);
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+
+a { color:inherit; }
+
+/* মূল র‍্যাপার — মোবাইল-ফার্স্ট, বড় স্ক্রিনে মাঝখানে বসবে */
+.page-wrap{
+  max-width:480px;
+  margin:0 auto;
+  min-height:100vh;
+  background:var(--bg);
+  position:relative;
+  box-shadow:0 0 40px rgba(0,0,0,0.05);
+}
+
+/* ---------- হেডার ---------- */
 .app-header {
-    background: #ffffff;
-    padding: 15px;
-    border-bottom: 1px solid #ddd;
+    background: linear-gradient(135deg, #0A8F5A 0%, #0C7A4D 100%);
+    padding: 16px 18px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: sticky;
     top: 0;
     z-index: 100;
+    color:#fff;
 }
 
 .logo {
-    font-size: 22px;
-    font-weight: bold;
-    color: #0A8F5A;
+    font-size: 21px;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing:0.2px;
+    display:flex;
+    flex-direction:column;
+    line-height:1.2;
 }
+
+.logo .slogan{
+  font-size:11px;
+  font-weight:500;
+  opacity:0.85;
+  margin-top:1px;
+}
+
+.top-nav { display:flex; align-items:center; }
 
 .top-nav span, .top-nav a {
-    margin-left: 15px;
+    margin-left: 12px;
     cursor: pointer;
     text-decoration: none;
-    color: #333;
+    color: #fff;
+    width:36px; height:36px;
+    background:rgba(255,255,255,0.18);
+    border-radius:12px;
+    display:flex; align-items:center; justify-content:center;
+    font-size:16px;
 }
 
-/* মেইন কনটেইনার */
+/* ---------- মেইন কনটেইনার ---------- */
 .container {
-    padding: 15px;
-    padding-bottom: 80px;
+    padding: 14px 16px;
+    padding-bottom: 90px;
 }
 
-/* কার্ড ডিজাইন */
+/* ---------- কার্ড ---------- */
 .card {
-    background: #fff;
-    padding: 15px;
-    border-radius: 12px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    background: var(--card);
+    padding: 16px;
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    border:1px solid var(--border);
 }
 
-/* পোস্ট বক্স ও পোস্ট */
+.card h3{
+  font-size:14px;
+  margin:0 0 10px;
+  color:var(--text);
+}
+
+/* ---------- পোস্ট ইনপুট বক্স ---------- */
 .post-input-box {
     display: flex;
     align-items: center;
+    gap:10px;
+}
+
+.user-avatar{
+  width:40px; height:40px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#0A8F5A,#0C7A4D);
+  color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:17px;
+  flex-shrink:0;
 }
 
 .post-input-box input {
     border: none;
-    padding: 10px;
+    background:var(--bg);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding: 10px 16px;
     width: 100%;
     outline: none;
+    font-family:inherit;
+    font-size:13.5px;
+    color:var(--text-soft);
 }
 
+/* ---------- খবর স্ট্রিপ (হোম) ---------- */
+.news-strip{
+  background:var(--green-tint);
+  border:1px solid #CFEEDD;
+  border-radius:14px;
+  padding:11px 14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+  font-size:12.5px;
+  color:var(--green-deep);
+  font-weight:600;
+  text-decoration:none;
+}
+.news-strip .tag{
+  background:var(--green); color:#fff;
+  font-size:10.5px; font-weight:700;
+  padding:4px 9px; border-radius:8px;
+  flex-shrink:0;
+}
+
+/* ---------- মজলিস চিপ রেইল ---------- */
+.chip-rail{
+  display:flex; gap:8px;
+  overflow-x:auto;
+  padding-bottom:4px;
+  margin-bottom:14px;
+}
+.chip-rail::-webkit-scrollbar{ display:none; }
+.chip{
+  flex-shrink:0;
+  background:var(--card);
+  border:1.5px solid var(--border);
+  padding:7px 14px;
+  border-radius:20px;
+  font-size:12.5px;
+  font-weight:600;
+  color:var(--text-soft);
+  white-space:nowrap;
+  cursor:pointer;
+}
+.chip.active{
+  background:var(--green);
+  border-color:var(--green);
+  color:#fff;
+}
+
+/* ---------- পোস্ট কার্ড ---------- */
+.post{ padding:0; overflow:hidden; }
+.post-head{
+  display:flex; align-items:center; gap:10px;
+  padding:14px 16px 8px;
+}
+.post-head .meta{ flex:1; }
+.user-name {
+    font-weight: 700;
+    font-size:13.5px;
+    color:var(--text);
+}
+.post-time{
+  font-size:11px;
+  color:var(--text-soft);
+  margin-top:1px;
+}
+.badge{
+  background:var(--green-tint);
+  color:var(--green-deep);
+  font-size:9.5px;
+  font-weight:700;
+  padding:2px 7px;
+  border-radius:6px;
+  margin-left:6px;
+}
+.post p{
+  padding:0 16px 12px;
+  margin:0;
+  font-size:13.5px;
+  line-height:1.65;
+  color:var(--text);
+}
 .post-actions {
-    margin-top: 10px;
-    color: #666;
-    font-size: 0.9em;
+    display:flex;
+    border-top: 1px solid var(--border);
+    color: var(--text-soft);
+    font-size: 12.5px;
+    font-weight:600;
+}
+.post-actions span{
+  flex:1;
+  text-align:center;
+  padding:11px 0;
+  cursor:pointer;
 }
 
-/* মজলিস ও আরও পেজের তালিকা */
+/* ---------- মেনু লিস্ট (মজলিস / আরও) ---------- */
 .menu-list {
     list-style: none;
     padding: 0;
@@ -75,60 +239,225 @@ body {
 }
 
 .menu-list li {
-    padding: 15px;
-    border-bottom: 1px solid #eee;
+    padding: 14px 4px;
+    border-bottom: 1px solid var(--border);
     cursor: pointer;
+    font-size:13.5px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+.menu-list li:last-child{ border-bottom:none; }
+.menu-list li .sub{
+  font-size:11px;
+  color:var(--text-soft);
+  font-weight:500;
+  margin-top:2px;
 }
 
 .logout {
-    color: red;
-    font-weight: bold;
+    color: #E5484D;
+    font-weight: 700;
 }
 
-/* খবর পেজের ডিজাইন */
-.news-item {
-    padding: 15px 0;
-    border-bottom: 1px solid #eee;
+/* মজলিস গ্রুপ কার্ড */
+.majlis-item{
+  display:flex; align-items:center; gap:12px;
+  padding:12px 4px;
+  border-bottom:1px solid var(--border);
 }
+.majlis-item:last-child{ border-bottom:none; }
+.majlis-icon{
+  width:44px; height:44px;
+  border-radius:var(--radius-sm);
+  background:var(--green-tint);
+  display:flex; align-items:center; justify-content:center;
+  font-size:19px;
+  flex-shrink:0;
+}
+.majlis-item .info{ flex:1; }
+.majlis-item .info .name{ font-weight:700; font-size:13.5px; }
+.majlis-item .info .members{ font-size:11px; color:var(--text-soft); margin-top:2px; }
+.join-btn{
+  border:none;
+  background:var(--green);
+  color:#fff;
+  font-size:11.5px;
+  font-weight:700;
+  padding:7px 12px;
+  border-radius:20px;
+  cursor:pointer;
+  white-space:nowrap;
+}
+.join-btn.joined{
+  background:var(--green-tint);
+  color:var(--green-deep);
+}
+
+/* ---------- খবর পেজ ---------- */
+.news-item {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+.news-item:last-child{ border-bottom:none; }
 
 .news-title {
-    font-weight: bold;
+    font-weight: 700;
+    font-size:13.5px;
     margin-bottom: 5px;
+    color:var(--text);
+}
+.news-item p{
+  font-size:12.5px;
+  color:var(--text-soft);
+  line-height:1.6;
+  margin:0;
+}
+.news-source{
+  font-size:11px;
+  color:var(--green-deep);
+  font-weight:700;
+  margin-bottom:6px;
+  display:block;
 }
 
-/* প্রোফাইল পেজের ডিজাইন */
+/* ---------- প্রোফাইল পেজ ---------- */
+.profile-hero{
+  height:90px;
+  border-radius:var(--radius);
+  background:linear-gradient(135deg,#0A8F5A,#0C7A4D);
+  margin-bottom:44px;
+  position:relative;
+}
+.profile-hero .profile-avatar-big{
+  width:80px; height:80px;
+  border-radius:50%;
+  background:#fff;
+  border:4px solid #fff;
+  position:absolute;
+  left:16px;
+  bottom:-38px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:30px;
+  color:var(--green);
+  font-weight:800;
+  box-shadow:0 4px 10px rgba(0,0,0,0.12);
+}
+
 .profile-info {
-    text-align: center;
-    padding: 10px;
+    text-align: left;
+    padding: 6px 4px 4px;
+}
+.profile-info h2{
+  margin:0 0 4px;
+  font-size:18px;
+  font-weight:800;
+}
+.profile-info p{
+  margin:0;
+  font-size:12.5px;
+  color:var(--text-soft);
+  line-height:1.6;
 }
 
 .profile-stats {
     display: flex;
     justify-content: space-around;
-    margin-top: 15px;
-    padding-top: 10px;
-    border-top: 1px solid #eee;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+.profile-stats span strong{
+  color:var(--green-deep);
+  font-size:15px;
+  display:block;
+}
+.profile-stats span{
+  font-size:11.5px;
+  color:var(--text-soft);
+  text-align:center;
 }
 
-/* বটম নেভিগেশন */
+.profile-fields{ padding:0; }
+.pfield{
+  display:flex; justify-content:space-between;
+  padding:11px 4px;
+  border-bottom:1px solid var(--border);
+  font-size:12.5px;
+}
+.pfield:last-child{ border-bottom:none; }
+.pfield .k{ color:var(--text-soft); font-weight:600; }
+.pfield .v{ font-weight:700; color:var(--text); }
+
+/* ---------- পোস্ট তৈরির পেজ ---------- */
+textarea#postText{
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  padding:12px 14px;
+  font-family:inherit;
+  font-size:13.5px;
+  resize:vertical;
+  background:var(--bg);
+  color:var(--text);
+}
+textarea#postText:focus{ outline:2px solid var(--green); outline-offset:1px; }
+
+.primary-btn{
+  border:none;
+  background:var(--green);
+  color:#fff;
+  font-weight:700;
+  font-size:14px;
+  border-radius:var(--radius-sm);
+  padding:12px 0;
+  cursor:pointer;
+  font-family:inherit;
+  transition:background 0.15s ease;
+}
+.primary-btn:hover{ background:var(--green-deep); }
+
+/* ---------- বটম নেভিগেশন ---------- */
 .bottom-nav {
     position: fixed;
     bottom: 0;
-    left: 0;
+    left: 50%;
+    transform:translateX(-50%);
     width: 100%;
-    background: #fff;
-    border-top: 1px solid #ddd;
+    max-width:480px;
+    background: var(--card);
+    border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-around;
-    padding: 12px 0;
+    padding: 10px 0 16px;
     z-index: 100;
 }
 
 .bottom-nav a {
     text-decoration: none;
-    color: #555;
-    font-size: 0.85em;
+    color: var(--text-soft);
+    font-size: 10.5px;
+    font-weight:600;
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap:3px;
+    flex:1;
+}
+
+.bottom-nav a.active{ color:var(--green); }
+
+.bottom-nav a[href="create-post.html"]{
+  color:transparent;
+  font-size:0;
+}
+.bottom-nav a[href="create-post.html"]::before{
+  content:"➕";
+  width:36px; height:36px;
+  border-radius:12px;
+  background:var(--green);
+  color:#fff;
+  display:flex; align-items:center; justify-content:center;
+  font-size:17px;
+  margin-top:-14px;
+  box-shadow:0 4px 10px rgba(10,143,90,0.35);
 }
