@@ -4,33 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>প্রোফাইল | SylNet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="page-wrap">
+
     <header class="app-header">
-        <div class="logo"><strong>প্রোফাইল</strong></div>
+        <div class="logo">প্রোফাইল<span class="slogan">আফনার পরিচয়</span></div>
         <nav class="top-nav">
             <a href="index.html">🏠</a>
         </nav>
     </header>
 
     <main class="container">
+
+        <div class="profile-hero">
+            <div class="profile-avatar-big">র</div>
+        </div>
+
         <div class="card">
             <div class="profile-info">
                 <h2>আব্দুর রাজ্জাক</h2>
-                <p>লেখক ও ভ্রমণপিপাসু। সিলেট আমার ভালোলাগার জায়গা।</p>
+                <p>লেখক ও ভ্রমণপিপাসু। সিলেট আমার ভালোলাগার জায়গা।</p>
                 <div class="profile-stats">
-                    <span><strong>১৫</strong> পোস্ট</span>
-                    <span><strong>১২০</strong> অনুসারী</span>
+                    <span><strong>১৫</strong>পোস্ট</span>
+                    <span><strong>১২০</strong>অনুসারী</span>
+                    <span><strong>৩</strong>মজলিস</span>
                 </div>
             </div>
         </div>
-        
+
+        <div class="card profile-fields">
+            <h3>পরিচিতি</h3>
+            <div class="pfield"><div class="k">দেশ</div><div class="v">বাংলাদেশ</div></div>
+            <div class="pfield"><div class="k">জেলা</div><div class="v">সিলেট</div></div>
+            <div class="pfield"><div class="k">উপজেলা</div><div class="v">ফেঞ্চুগঞ্জ</div></div>
+            <div class="pfield"><div class="k">ইউনিয়ন</div><div class="v">মাইজগাঁও</div></div>
+            <div class="pfield"><div class="k">বর্তমান অবস্থান</div><div class="v">ঢাকা</div></div>
+            <div class="pfield"><div class="k">পেশা</div><div class="v">লেখক</div></div>
+        </div>
+
         <div class="card">
             <h3>আমার পোস্টসমূহ</h3>
-            <p>১. আজকের আবহাওয়াটা বেশ সুন্দর।</p>
-            <p>২. সিলেটের চা বাগানের দৃশ্যগুলো দারুণ!</p>
+            <p style="font-size:12.5px; color:var(--text-soft); margin:0 0 8px;">১. আজকের আবহাওয়াটা বেশ সুন্দর।</p>
+            <p style="font-size:12.5px; color:var(--text-soft); margin:0;">২. সিলেটের চা বাগানের দৃশ্যগুলো দারুণ!</p>
         </div>
+
     </main>
 
     <nav class="bottom-nav">
@@ -40,5 +61,8 @@
         <a href="news.html">🔔 খবর</a>
         <a href="more.html">☰ আরও</a>
     </nav>
+
+</div>
+<script src="app.js"></script>
 </body>
 </html>
