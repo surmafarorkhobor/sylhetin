@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>মজলিস | SylNet</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css?v=5">
+</head>
+<body>
+<div class="page-wrap">
+
+    <header class="app-header">
+        <div class="logo" id="mdLogo">মজলিস<span class="slogan" id="mdSlogan">লোড হচ্ছে...</span></div>
+        <nav class="top-nav">
+            <a href="majlis.html">←</a>
+        </nav>
+    </header>
+
+    <main class="container" id="mdContainer">
+        <!-- JS দিয়ে ভরা হবে -->
+    </main>
+
+    <nav class="bottom-nav">
+        <a href="index.html">🏠 ঘর</a>
+        <a href="majlis.html">👥 মজলিস</a>
+        <a href="create-post.html">➕ পোস্ট</a>
+        <a href="news.html">🔔 খবর</a>
+        <a href="more.html">☰ আরও</a>
+    </nav>
+
+    <div class="toast" id="toast"></div>
+
+</div>
+<script src="app.js?v=5"></script>
+<script>
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const data = (window.SylNet && window.SylNet.majlisData) ? window.SylNet.majlisData[id] : null;
+        const container = document.getElementById('mdContainer');
+
+        if (!data) {
+            container.innerHTML = '<div class="card"><p>দুঃখিত, এই মজলিসটি পাওয়া যায়নি।</p></div>';
+            return;
+        }
+
+        document.getElementById('mdLogo').firstChild.textContent = data.name;
+        document.getElementById('mdSlogan').textContent = data.members + ' জন সদস্য';
+
+        const joinedClass = data.joined ? 'joined' : '';
+        const joinedLabel = data.joined ? '✅ যোগ দিছি' : 'যোগ করো';
+
+        let html = `
+            <div class="card">
+                <div class="majlis-item" style="border-bottom:none; padding:4px;">
+                    <div class="majlis-icon" style="width:52px;height:52px;font-size:22px;">${data.icon}</div>
+                    <div class="info">
+                        <div class="name" style="font-size:15px;">${data.name}</div>
+                        <div class="members">${data.members} জন সদস্য</div>
+                    </div>
+                    <button class="join-btn ${joinedClass}">${joinedLabel}</button>
+                </div>
+                <p style="font-size:12.5px; color:var(--text-soft); margin-top:10px; line-height:1.6;">${data.description}</p>
+            </div>
+        `;
+
+        data.posts.forEach(function (post, index) {
+            const postId = id + '-post-' + index;
+            html += `
+                <div class="card post" data-post-id="${postId}">
+                    <div class="post-head">
+                        <div class="user-avatar">${post.avatarLetter}</div>
+                        <div class="meta">
+                            <div class="user-name">${post.author}</div>
+                            <div class="post-time">${post.time}</div>
+                        </div>
+                    </div>
+                    <p>${post.text}</p>
+                    <div class="post-actions">
+                        <div class="reaction-wrap">
+                            <button type="button" class="reaction-btn" data-emoji="👍" data-label="ফছন অইছে">
+                                <span class="r-emoji">👍</span><span class="r-label">ফছন অইছে</span>
+                            </button>
+                            <div class="reaction-picker">
+                                <span class="r-item" data-emoji="👍" data-label="ফছন অইছে" title="ফছন অইছে">👍</span>
+                                <span class="r-item" data-emoji="❤️" data-label="ভালা লাগছে" title="ভালা লাগছে">❤️</span>
+                                <span class="r-item" data-emoji="😂" data-label="হা হা" title="হা হা">😂</span>
+                                <span class="r-item" data-emoji="😮" data-label="ছমতখার" title="ছমতখার">😮</span>
+                                <span class="r-item" data-emoji="😢" data-label="খশটো ফাইলাম" title="খশটো ফাইলাম">😢</span>
+                                <span class="r-item" data-emoji="😡" data-label="রাগ খরলাম" title="রাগ খরলাম">😡</span>
+                            </div>
+                        </div>
+                        <span class="comment-toggle">💬 কুনতা খও</span>
+                        <span class="share-btn">↗️ আরো মানরে দেখাউক্কা</span>
+                    </div>
+                    <div class="comment-section">
+                        <ul class="comment-list"></ul>
+                        <div class="comment-input-row">
+                            <div class="user-avatar" style="width:30px;height:30px;font-size:12px;">👤</div>
+                            <input type="text" class="comment-input" placeholder="আফনার মত কিতা?">
+                            <button type="button" class="comment-send-btn">➤</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+
+        // নতুন যোগ হওয়া প্রতিটা পোস্টের কমেন্ট/শেয়ার কাউন্ট রিস্টোর করা
+        container.querySelectorAll('.post[data-post-id]').forEach(function (postEl) {
+            if (window.SylNet) {
+                window.SylNet.renderCommentsFor(postEl);
+                window.SylNet.renderShareCountFor(postEl);
+            }
+        });
+    })();
+</script>
+</body>
+</html>
