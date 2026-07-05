@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SylNet | আপনার ডিজিটাল ঘর</title>
+    <title>Sylhetin | আপনার ডিজিটাল ঘর</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <div class="page-wrap">
 
     <header class="app-header">
-        <div class="logo">SylNet<span class="slogan">আমরা হখল ছিলটি</span></div>
+        <div class="logo">Sylhetin<span class="slogan">আমরা হখল ছিলটি</span></div>
         <nav class="top-nav">
             <a href="search.html">🔍</a>
             <span>💬</span>
@@ -183,7 +183,7 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 <script>
     window.onload = function() {
         const savedPost = localStorage.getItem('myNewPost');
@@ -234,9 +234,9 @@
             postContainer.insertBefore(newCard, postContainer.children[3]);
             localStorage.removeItem('myNewPost');
             localStorage.removeItem('myNewPostImage');
-            if (window.SylNet && window.SylNet.renderCommentsFor) {
-                window.SylNet.renderCommentsFor(newCard);
-                window.SylNet.renderShareCountFor(newCard);
+            if (window.Sylhetin && window.Sylhetin.renderCommentsFor) {
+                window.Sylhetin.renderCommentsFor(newCard);
+                window.Sylhetin.renderShareCountFor(newCard);
             }
         }
     };

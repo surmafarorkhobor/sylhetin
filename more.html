@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>আরও | SylNet</title>
+    <title>আরও | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <div class="page-wrap">
@@ -51,18 +51,18 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 <script>
     // ভাষা নির্বাচন
     const langChips = document.querySelectorAll('#langChips .chip');
-    const savedLang = localStorage.getItem('sylnet_lang') || 'sylheti';
+    const savedLang = localStorage.getItem('sylhetin_lang') || 'sylheti';
     langChips.forEach(function (chip) {
         if (chip.getAttribute('data-lang') === savedLang) chip.classList.add('active');
         chip.addEventListener('click', function () {
             langChips.forEach(function (c) { c.classList.remove('active'); });
             chip.classList.add('active');
-            localStorage.setItem('sylnet_lang', chip.getAttribute('data-lang'));
-            if (window.SylNet) window.SylNet.showToast('ভাষা নির্বাচন করা অইছে: ' + chip.textContent);
+            localStorage.setItem('sylhetin_lang', chip.getAttribute('data-lang'));
+            if (window.Sylhetin) window.Sylhetin.showToast('ভাষা নির্বাচন করা অইছে: ' + chip.textContent);
         });
     });
 
@@ -71,7 +71,7 @@
         const sure = confirm('আফনে কি লগ আউট করতে চান?');
         if (!sure) return;
         Object.keys(localStorage).forEach(function (key) {
-            if (key.indexOf('sylnet_') === 0 || key === 'myNewPost' || key === 'myNewPostImage') {
+            if (key.indexOf('sylhetin_') === 0 || key === 'myNewPost' || key === 'myNewPostImage') {
                 localStorage.removeItem(key);
             }
         });

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মজলিস | SylNet</title>
+    <title>মজলিস | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=5">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <div class="page-wrap">
@@ -33,12 +33,12 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 <script>
     (function () {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
-        const data = (window.SylNet && window.SylNet.majlisData) ? window.SylNet.majlisData[id] : null;
+        const data = (window.Sylhetin && window.Sylhetin.majlisData) ? window.Sylhetin.majlisData[id] : null;
         const container = document.getElementById('mdContainer');
 
         if (!data) {
@@ -111,9 +111,9 @@
 
         // নতুন যোগ হওয়া প্রতিটা পোস্টের কমেন্ট/শেয়ার কাউন্ট রিস্টোর করা
         container.querySelectorAll('.post[data-post-id]').forEach(function (postEl) {
-            if (window.SylNet) {
-                window.SylNet.renderCommentsFor(postEl);
-                window.SylNet.renderShareCountFor(postEl);
+            if (window.Sylhetin) {
+                window.Sylhetin.renderCommentsFor(postEl);
+                window.Sylhetin.renderShareCountFor(postEl);
             }
         });
     })();

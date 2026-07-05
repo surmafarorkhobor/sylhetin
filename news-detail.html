@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>খবরের বিস্তারিত | SylNet</title>
+    <title>খবরের বিস্তারিত | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body>
 <div class="page-wrap">
@@ -35,12 +35,12 @@
     </nav>
 
 </div>
-<script src="app.js?v=4"></script>
+<script src="app.js?v=6"></script>
 <script>
     (function () {
         const params = new URLSearchParams(window.location.search);
         const id = params.get('id');
-        const data = (window.SylNet && window.SylNet.newsData) ? window.SylNet.newsData[id] : null;
+        const data = (window.Sylhetin && window.Sylhetin.newsData) ? window.Sylhetin.newsData[id] : null;
 
         if (data) {
             document.getElementById('ndSource').textContent = data.source + ' · ' + data.time;
