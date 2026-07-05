@@ -1,7 +1,7 @@
 // ============================================
-// SylNet Application Logic
+// Sylhetin Application Logic
 // ============================================
-console.log("SylNet Prototype Loaded");
+console.log("Sylhetin Prototype Loaded");
 
 // ---------- টোস্ট নোটিফিকেশন ----------
 function showToast(message) {
@@ -22,7 +22,7 @@ function renderCommentsFor(postEl) {
     const list = postEl.querySelector('.comment-list');
     if (!list) return;
     list.innerHTML = '';
-    const saved = JSON.parse(localStorage.getItem('sylnet_comments_' + postId) || '[]');
+    const saved = JSON.parse(localStorage.getItem('sylhetin_comments_' + postId) || '[]');
     saved.forEach(function (c) {
         const li = document.createElement('li');
         li.className = 'comment-item';
@@ -38,14 +38,14 @@ function renderShareCountFor(postEl) {
     if (!postId) return;
     const btn = postEl.querySelector('.share-btn');
     if (!btn) return;
-    const count = parseInt(localStorage.getItem('sylnet_shares_' + postId) || '0', 10);
+    const count = parseInt(localStorage.getItem('sylhetin_shares_' + postId) || '0', 10);
     btn.textContent = count > 0
         ? '↗️ আরো মানরে দেখাউক্কা (' + count + ')'
         : '↗️ আরো মানরে দেখাউক্কা';
 }
 
 // ---------- খবরের বিস্তারিত তথ্য (news-detail.html-এর জন্য) ----------
-const sylnetNewsData = {
+const sylhetinNewsData = {
     'news-1': {
         title: 'সকালের আপডেট: সিলেটে বৃষ্টির সম্ভাবনা',
         source: 'Surma Faror Khobor',
@@ -67,7 +67,7 @@ const sylnetNewsData = {
 };
 
 // ---------- মজলিস গ্রুপের তথ্য (majlis-detail.html ও search.html-এর জন্য) ----------
-const sylnetMajlisData = {
+const sylhetinMajlisData = {
     'm1': {
         name: 'ফেঞ্চুগঞ্জ ইউনিয়ন মজলিস',
         icon: '🏠',
@@ -155,8 +155,8 @@ document.addEventListener('DOMContentLoaded', function () {
     // পেজ লোডের সময় প্রোফাইল/কভার ছবি থাকলে সেট করা
     const coverEl = document.getElementById('coverPhoto');
     const avatarEl = document.getElementById('avatarPhoto');
-    const savedCover = localStorage.getItem('sylnet_cover');
-    const savedAvatar = localStorage.getItem('sylnet_avatar');
+    const savedCover = localStorage.getItem('sylhetin_cover');
+    const savedAvatar = localStorage.getItem('sylhetin_avatar');
     if (coverEl && savedCover) {
         coverEl.style.backgroundImage = 'url(' + savedCover + ')';
     }
@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function (e) {
-                localStorage.setItem('sylnet_cover', e.target.result);
+                localStorage.setItem('sylhetin_cover', e.target.result);
                 coverEl.style.backgroundImage = 'url(' + e.target.result + ')';
                 showToast('কভার ফটো পাল্টানো অইছে!');
             };
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function (e) {
-                localStorage.setItem('sylnet_avatar', e.target.result);
+                localStorage.setItem('sylhetin_avatar', e.target.result);
                 avatarEl.style.backgroundImage = 'url(' + e.target.result + ')';
                 avatarEl.childNodes.forEach(function (node) {
                     if (node.nodeType === Node.TEXT_NODE) node.textContent = '';
@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const text = input.value.trim();
             if (text === '') return;
             const postId = postEl.getAttribute('data-post-id');
-            const key = 'sylnet_comments_' + postId;
+            const key = 'sylhetin_comments_' + postId;
             const saved = JSON.parse(localStorage.getItem(key) || '[]');
             saved.push(text);
             localStorage.setItem(key, JSON.stringify(saved));
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (shareBtn) {
             const postEl = shareBtn.closest('.post');
             const postId = postEl.getAttribute('data-post-id');
-            const key = 'sylnet_shares_' + postId;
+            const key = 'sylhetin_shares_' + postId;
             const count = parseInt(localStorage.getItem(key) || '0', 10) + 1;
             localStorage.setItem(key, count);
             renderShareCountFor(postEl);
@@ -338,10 +338,10 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 // অন্য স্ক্রিপ্ট থেকে ব্যবহারের জন্য (যেমন নতুন পোস্ট যোগ হওয়ার সময়, বা news-detail.html)
-window.SylNet = {
+window.Sylhetin = {
     renderCommentsFor: renderCommentsFor,
     renderShareCountFor: renderShareCountFor,
     showToast: showToast,
-    newsData: sylnetNewsData,
-    majlisData: sylnetMajlisData
+    newsData: sylhetinNewsData,
+    majlisData: sylhetinMajlisData
 };
