@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>মজলিস | Sylhetin</title>
+    <title>নিউজ পেজ | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css?v=8">
@@ -12,13 +12,13 @@
 <div class="page-wrap">
 
     <header class="app-header">
-        <div class="logo" id="mdLogo">মজলিস<span class="slogan" id="mdSlogan">লোড হচ্ছে...</span></div>
+        <div class="logo" id="npLogo">নিউজ পেজ<span class="slogan" id="npSlogan">লোড হচ্ছে...</span></div>
         <nav class="top-nav">
-            <a href="majlis.html">←</a>
+            <a href="news.html">←</a>
         </nav>
     </header>
 
-    <main class="container" id="mdContainer">
+    <main class="container" id="npContainer">
         <!-- JS দিয়ে ভরা হবে -->
     </main>
 
@@ -37,47 +37,53 @@
 <script>
     (function () {
         const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        const data = (window.Sylhetin && window.Sylhetin.majlisData) ? window.Sylhetin.majlisData[id] : null;
-        const container = document.getElementById('mdContainer');
+        const pageId = params.get('id');
+        const page = (window.Sylhetin && window.Sylhetin.newsPagesData) ? window.Sylhetin.newsPagesData[pageId] : null;
+        const container = document.getElementById('npContainer');
 
-        if (!data) {
-            container.innerHTML = '<div class="card"><p>দুঃখিত, এই মজলিসটি পাওয়া যায়নি।</p></div>';
+        if (!page) {
+            container.innerHTML = '<div class="card"><p>দুঃখিত, এই নিউজ পেজটি পাওয়া যায়নি।</p></div>';
             return;
         }
 
-        document.getElementById('mdLogo').firstChild.textContent = data.name;
-        document.getElementById('mdSlogan').textContent = data.members + ' জন সদস্য';
+        document.getElementById('npLogo').firstChild.textContent = page.name;
+        document.getElementById('npSlogan').textContent = page.followers + ' ফলোয়ার';
 
-        const joinedClass = data.joined ? 'joined' : '';
-        const joinedLabel = data.joined ? '✅ যোগ দিছি' : 'যোগ করো';
+        const verifiedBadge = page.verified ? '<span class="badge">✅ যাচাইকৃত</span>' : '';
 
         let html = `
             <div class="card">
-                <div class="majlis-item" data-majlis-id="${id}" style="border-bottom:none; padding:4px;">
-                    <div class="majlis-icon" style="width:52px;height:52px;font-size:22px;">${data.icon}</div>
+                <div class="majlis-item" style="border-bottom:none; padding:4px;">
+                    <div class="majlis-icon" style="width:52px;height:52px;font-size:22px;">${page.logo}</div>
                     <div class="info">
-                        <div class="name" style="font-size:15px;">${data.name}</div>
-                        <div class="members">${data.members} জন সদস্য</div>
+                        <div class="name" style="font-size:15px;">${page.name} ${verifiedBadge}</div>
+                        <div class="members">${page.pageType} · ${page.followers} ফলোয়ার</div>
                     </div>
-                    <button class="join-btn ${joinedClass}">${joinedLabel}</button>
+                    <button type="button" class="follow-btn" data-user-id="${pageId}">👁️ ফলো</button>
                 </div>
-                <p style="font-size:12.5px; color:var(--text-soft); margin-top:10px; line-height:1.6;">${data.description}</p>
+                <p style="font-size:12.5px; color:var(--text-soft); margin-top:10px; line-height:1.6;">${page.about}</p>
+                <p style="font-size:12px; color:var(--green-deep); margin-top:8px;">🔗 ${page.website}</p>
             </div>
+
+            <div class="section-title-plain">সাম্প্রতিক খবর</div>
         `;
 
-        data.posts.forEach(function (post, index) {
-            const postId = id + '-post-' + index;
+        page.posts.forEach(function (post) {
+            const fullPostId = pageId + '-' + post.id;
+            const reporterLine = post.reporterName ? ' · ' + post.reporterName : '';
             html += `
-                <div class="card post" data-post-id="${postId}">
-                    <div class="post-head">
-                        <div class="user-avatar">${post.avatarLetter}</div>
+                <div class="card post" data-post-id="${fullPostId}">
+                    <div class="post-head" onclick="window.location.href='news-detail.html?id=${fullPostId}'" style="cursor:pointer;">
+                        <div class="user-avatar" style="border-radius:12px;">${page.logo}</div>
                         <div class="meta">
-                            <div class="user-name">${post.author}</div>
-                            <div class="post-time">${post.time}</div>
+                            <div class="user-name">${page.name} ${verifiedBadge}</div>
+                            <div class="post-time">${post.category} · ${post.publishDate}${reporterLine}</div>
                         </div>
                     </div>
-                    <p>${post.text}</p>
+                    <div onclick="window.location.href='news-detail.html?id=${fullPostId}'" style="cursor:pointer;">
+                        <p style="font-weight:700; font-size:14.5px; padding:0 16px 6px;">${post.headline}</p>
+                        <p style="padding:0 16px 12px; color:var(--text-soft);">${post.shortDescription}</p>
+                    </div>
                     <div class="post-actions">
                         <div class="reaction-wrap">
                             <button type="button" class="reaction-btn" data-emoji="👍" data-label="ফছন অইছে">
@@ -101,7 +107,7 @@
                             <div class="user-avatar" style="width:30px;height:30px;font-size:12px;">👤</div>
                             <input type="text" class="comment-input" placeholder="আফনার মত কিতা?">
                             <span class="mic-btn" title="ভয়েস কমেন্ট">🎤</span>
-                        <button type="button" class="comment-send-btn">➤</button>
+                            <button type="button" class="comment-send-btn">➤</button>
                         </div>
                     </div>
                 </div>
@@ -110,18 +116,12 @@
 
         container.innerHTML = html;
 
-        // নতুন যোগ হওয়া প্রতিটা পোস্টের কমেন্ট/শেয়ার কাউন্ট রিস্টোর করা
         container.querySelectorAll('.post[data-post-id]').forEach(function (postEl) {
             if (window.Sylhetin) {
                 window.Sylhetin.renderCommentsFor(postEl);
                 window.Sylhetin.renderShareCountFor(postEl);
             }
         });
-
-        // জয়েন বাটনের সেভ করা অবস্থা ফিরিয়ে আনা
-        if (window.Sylhetin && window.Sylhetin.restoreJoinStates) {
-            window.Sylhetin.restoreJoinStates(container);
-        }
     })();
 </script>
 </body>

@@ -6,7 +6,7 @@
     <title>খুঁজো | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 <div class="page-wrap">
@@ -37,7 +37,7 @@
     </nav>
 
 </div>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 <script>
     const input = document.getElementById('searchInput');
     const resultsBox = document.getElementById('searchResults');
@@ -56,16 +56,26 @@
         }
 
         const majlisData = (window.Sylhetin && window.Sylhetin.majlisData) || {};
-        const newsData = (window.Sylhetin && window.Sylhetin.newsData) || {};
+        const newsPagesData = (window.Sylhetin && window.Sylhetin.newsPagesData) || {};
 
         const majlisMatches = Object.keys(majlisData).filter(function (id) {
             return majlisData[id].name.toLowerCase().includes(q);
         });
-        const newsMatches = Object.keys(newsData).filter(function (id) {
-            return newsData[id].title.toLowerCase().includes(q);
+
+        // নিউজ পেজের নাম বা তার প্রতিটা পোস্টের হেডলাইন — দুটোতেই খোঁজা হবে
+        const newsPageMatches = Object.keys(newsPagesData).filter(function (id) {
+            return newsPagesData[id].name.toLowerCase().includes(q);
+        });
+        const newsPostMatches = [];
+        Object.keys(newsPagesData).forEach(function (pageId) {
+            newsPagesData[pageId].posts.forEach(function (post) {
+                if (post.headline.toLowerCase().includes(q)) {
+                    newsPostMatches.push({ pageId: pageId, page: newsPagesData[pageId], post: post });
+                }
+            });
         });
 
-        if (majlisMatches.length === 0 && newsMatches.length === 0) {
+        if (majlisMatches.length === 0 && newsPageMatches.length === 0 && newsPostMatches.length === 0) {
             emptyNote.style.display = 'block';
             emptyNote.textContent = 'কিছু পাওয়া যায়নি — অন্য শব্দ দিয়ে চেষ্টা করুন';
             return;
@@ -91,14 +101,31 @@
             html += '</div>';
         }
 
-        if (newsMatches.length > 0) {
-            html += '<div class="section-title-plain">🔔 খবর</div><div class="card">';
-            newsMatches.forEach(function (id) {
-                const n = newsData[id];
+        if (newsPageMatches.length > 0) {
+            html += '<div class="section-title-plain">📰 নিউজ পেজ</div><div class="card">';
+            newsPageMatches.forEach(function (id) {
+                const p = newsPagesData[id];
+                const badge = p.verified ? ' ✅' : '';
                 html += `
-                    <div class="news-item" onclick="window.location.href='news-detail.html?id=${id}'">
-                        <span class="news-source">${n.source} · ${n.time}</span>
-                        <div class="news-title">${n.title}</div>
+                    <div class="majlis-item" onclick="window.location.href='news-page-detail.html?id=${id}'" style="cursor:pointer;">
+                        <div class="majlis-icon">${p.logo}</div>
+                        <div class="info">
+                            <div class="name">${p.name}${badge}</div>
+                            <div class="members">${p.followers} ফলোয়ার</div>
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+        }
+
+        if (newsPostMatches.length > 0) {
+            html += '<div class="section-title-plain">🔔 খবর</div><div class="card">';
+            newsPostMatches.forEach(function (m) {
+                html += `
+                    <div class="news-item" onclick="window.location.href='news-detail.html?id=${m.pageId}-${m.post.id}'">
+                        <span class="news-source">${m.page.name} · ${m.post.publishDate}</span>
+                        <div class="news-title">${m.post.headline}</div>
                     </div>
                 `;
             });

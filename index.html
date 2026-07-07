@@ -6,7 +6,7 @@
     <title>Sylhetin | আপনার ডিজিটাল ঘর</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 <div class="page-wrap">
@@ -27,7 +27,7 @@
             <input type="text" placeholder="নয়া কিতা অইলো?" readonly style="cursor:pointer;">
         </div>
 
-        <a href="news.html" class="news-strip">
+        <a href="news-detail.html?id=np1-a1" class="news-strip">
             <span class="tag">খবর</span>
             <span>শুরমাফারর খবর: সিলেটে আজ হালকা বৃষ্টির সম্ভাবনা</span>
         </a>
@@ -69,7 +69,8 @@
                 <div class="comment-input-row">
                     <div class="user-avatar" style="width:30px;height:30px;font-size:12px;">👤</div>
                     <input type="text" class="comment-input" placeholder="আফনার মত কিতা?">
-                    <button type="button" class="comment-send-btn">➤</button>
+                    <span class="mic-btn" title="ভয়েস কমেন্ট">🎤</span>
+                        <button type="button" class="comment-send-btn">➤</button>
                 </div>
             </div>
         </div>
@@ -105,7 +106,8 @@
                 <div class="comment-input-row">
                     <div class="user-avatar" style="width:30px;height:30px;font-size:12px;">👤</div>
                     <input type="text" class="comment-input" placeholder="আফনার মত কিতা?">
-                    <button type="button" class="comment-send-btn">➤</button>
+                    <span class="mic-btn" title="ভয়েস কমেন্ট">🎤</span>
+                        <button type="button" class="comment-send-btn">➤</button>
                 </div>
             </div>
         </div>
@@ -165,7 +167,8 @@
                 <div class="comment-input-row">
                     <div class="user-avatar" style="width:30px;height:30px;font-size:12px;">👤</div>
                     <input type="text" class="comment-input" placeholder="আফনার মত কিতা?">
-                    <button type="button" class="comment-send-btn">➤</button>
+                    <span class="mic-btn" title="ভয়েস কমেন্ট">🎤</span>
+                        <button type="button" class="comment-send-btn">➤</button>
                 </div>
             </div>
         </div>
@@ -183,7 +186,7 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 <script>
     window.onload = function() {
         const savedPost = localStorage.getItem('myNewPost');
@@ -257,6 +260,7 @@
                     <div class="comment-input-row">
                         <div class="user-avatar" style="width:30px;height:30px;font-size:12px;">👤</div>
                         <input type="text" class="comment-input" placeholder="আফনার মত কিতা?">
+                        <span class="mic-btn" title="ভয়েস কমেন্ট">🎤</span>
                         <button type="button" class="comment-send-btn">➤</button>
                     </div>
                 </div>

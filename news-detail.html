@@ -6,24 +6,20 @@
     <title>খবরের বিস্তারিত | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=7">
+    <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body>
 <div class="page-wrap">
 
     <header class="app-header">
-        <div class="logo">খবরের বিস্তারিত<span class="slogan">Surma Faror Khobor</span></div>
+        <div class="logo">খবরের বিস্তারিত<span class="slogan" id="ndPageName">লোড হচ্ছে...</span></div>
         <nav class="top-nav">
             <a href="news.html">←</a>
         </nav>
     </header>
 
-    <main class="container">
-        <div class="card" id="newsDetailCard">
-            <span class="news-source" id="ndSource"></span>
-            <div class="news-title" id="ndTitle" style="font-size:16px; margin-bottom:10px;"></div>
-            <p id="ndBody" style="font-size:13.5px; line-height:1.75; color:var(--text);"></p>
-        </div>
+    <main class="container" id="ndContainer">
+        <!-- JS দিয়ে ভরা হবে -->
     </main>
 
     <nav class="bottom-nav">
@@ -35,21 +31,40 @@
     </nav>
 
 </div>
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 <script>
     (function () {
         const params = new URLSearchParams(window.location.search);
-        const id = params.get('id');
-        const data = (window.Sylhetin && window.Sylhetin.newsData) ? window.Sylhetin.newsData[id] : null;
+        const fullId = params.get('id');
+        const result = (window.Sylhetin && window.Sylhetin.findNewsPost) ? window.Sylhetin.findNewsPost(fullId) : null;
+        const container = document.getElementById('ndContainer');
 
-        if (data) {
-            document.getElementById('ndSource').textContent = data.source + ' · ' + data.time;
-            document.getElementById('ndTitle').textContent = data.title;
-            document.getElementById('ndBody').textContent = data.body;
-        } else {
-            document.getElementById('newsDetailCard').innerHTML =
-                '<p>দুঃখিত, এই খবরটি পাওয়া যায়নি।</p>';
+        if (!result) {
+            container.innerHTML = '<div class="card"><p>দুঃখিত, এই খবরটি পাওয়া যায়নি।</p></div>';
+            return;
         }
+
+        const page = result.page;
+        const post = result.post;
+        const verifiedBadge = page.verified ? '<span class="badge">✅ যাচাইকৃত</span>' : '';
+        const reporterLine = post.reporterName ? '<br>প্রতিবেদক: ' + post.reporterName : '';
+
+        document.getElementById('ndPageName').textContent = page.name;
+
+        container.innerHTML = `
+            <div class="card">
+                <div class="post-head" onclick="window.location.href='news-page-detail.html?id=${result.pageId}'" style="cursor:pointer; padding:0 0 12px;">
+                    <div class="user-avatar" style="border-radius:12px;">${page.logo}</div>
+                    <div class="meta">
+                        <div class="user-name">${page.name} ${verifiedBadge}</div>
+                        <div class="post-time">${post.category} · ${post.publishDate}</div>
+                    </div>
+                </div>
+                <div class="news-title" style="font-size:16px; margin-bottom:10px;">${post.headline}</div>
+                <p style="font-size:13.5px; line-height:1.75; color:var(--text);">${post.fullContent}</p>
+                ${reporterLine ? '<p style="font-size:11.5px; color:var(--text-soft); margin-top:12px;">' + reporterLine + '</p>' : ''}
+            </div>
+        `;
     })();
 </script>
 </body>

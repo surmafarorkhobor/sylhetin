@@ -928,3 +928,74 @@ textarea#postText:focus{ outline:2px solid var(--green); outline-offset:1px; }
   color:var(--text-soft);
   margin-top:2px;
 }
+
+/* ---------- প্রোফাইল অ্যাকশন বাটন (Friend/Follow/Message) ---------- */
+.profile-actions{
+  display:flex;
+  gap:8px;
+  margin-top:14px;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.profile-actions button{
+  flex:1;
+  border:none;
+  border-radius:var(--radius-sm);
+  padding:10px 6px;
+  font-family:inherit;
+  font-size:12px;
+  font-weight:700;
+  cursor:pointer;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.profile-actions .friend-btn{
+  background:var(--green);
+  color:#fff;
+}
+.profile-actions .friend-btn.sent{
+  background:var(--green-tint);
+  color:var(--green-deep);
+}
+.profile-actions .follow-btn{
+  background:var(--bg);
+  border:1px solid var(--border) !important;
+  color:var(--text);
+}
+.profile-actions .follow-btn.following{
+  background:var(--green-tint);
+  color:var(--green-deep);
+  border-color:#CFEEDD !important;
+}
+.profile-actions .message-btn{
+  background:var(--bg);
+  border:1px solid var(--border) !important;
+  color:var(--text);
+}
+
+/* ---------- ভয়েস কমেন্ট রেকর্ড বাটন ---------- */
+.mic-btn{
+  font-size:19px;
+  cursor:pointer;
+  flex-shrink:0;
+  padding:0 2px;
+}
+.mic-btn.recording{
+  animation: mic-pulse 1s infinite;
+}
+@keyframes mic-pulse{
+  0%, 100% { opacity:1; transform:scale(1); }
+  50% { opacity:0.5; transform:scale(1.15); }
+}
+
+/* ---------- কমেন্ট লিস্টে ভয়েস কমেন্ট বাবল ---------- */
+.comment-item .bubble.voice-comment{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.comment-item .bubble audio{
+  height:32px;
+  max-width:170px;
+}
