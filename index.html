@@ -6,7 +6,7 @@
     <title>Sylhetin | আপনার ডিজিটাল ঘর</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 <div class="page-wrap">
@@ -80,7 +80,7 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=14"></script>
+<script src="app.js?v=15"></script>
 <script>
     // ---------- একটা পোস্ট কার্ডের HTML বানানোর জেনেরিক ফাংশন ----------
     // reusable for বন্ধুর পোস্ট, মজলিসের পোস্ট, নিউজ পেজের পোস্ট — তিনটার জন্যই (এখন app.js-এ আছে)
@@ -112,7 +112,8 @@
                     name: post.author,
                     badge: `<span class="badge">👥 মজলিস</span>`,
                     metaLine: post.time + ' · <a href="majlis-detail.html?id=' + majId + '" style="color:var(--green-deep); font-weight:600;">' + m.name + '</a>',
-                    bodyText: post.text
+                    bodyText: post.text,
+                    images: post.images
                 });
             });
         });
@@ -136,7 +137,8 @@
                     headline: post.headline,
                     bodyText: post.shortDescription,
                     headHref: 'news-page-detail.html?id=' + pageId,
-                    linkHref: 'news-detail.html?id=' + post.fullId
+                    linkHref: 'news-detail.html?id=' + post.fullId,
+                    images: post.images
                 });
             });
         });
@@ -159,16 +161,17 @@
 
     window.onload = function() {
         const savedPost = localStorage.getItem('myNewPost');
-        const savedImage = localStorage.getItem('myNewPostImage');
+        const savedImagesRaw = localStorage.getItem('myNewPostImages');
+        const savedImages = savedImagesRaw ? JSON.parse(savedImagesRaw) : [];
         const savedVideo = localStorage.getItem('myNewPostVideo');
         const savedPollRaw = localStorage.getItem('myNewPostPoll');
         const savedPoll = savedPollRaw ? JSON.parse(savedPollRaw) : null;
 
-        if (savedPost !== null && savedPost !== undefined && (savedPost !== '' || savedImage || savedVideo || savedPoll)) {
+        if (savedPost !== null && savedPost !== undefined && (savedPost !== '' || savedImages.length || savedVideo || savedPoll)) {
             const feedContainer = document.getElementById('feedContainer');
             const newId = 'new-' + Date.now();
 
-            const imageHtml = savedImage ? `<img src="${savedImage}" style="width:100%; display:block; margin-bottom:2px;">` : '';
+            const imageHtml = window.Sylhetin.buildImagesGridHtml(savedImages);
             const videoHtml = savedVideo ? `<video src="${savedVideo}" controls style="width:100%; display:block; margin-bottom:2px; background:#000;"></video>` : '';
 
             let pollHtml = '';
@@ -212,7 +215,7 @@
             feedContainer.insertBefore(cardEl, feedContainer.firstChild);
 
             localStorage.removeItem('myNewPost');
-            localStorage.removeItem('myNewPostImage');
+            localStorage.removeItem('myNewPostImages');
             localStorage.removeItem('myNewPostVideo');
             localStorage.removeItem('myNewPostPoll');
             if (window.Sylhetin && window.Sylhetin.renderCommentsFor) {

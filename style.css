@@ -1139,3 +1139,60 @@ select.form-input{
   width:16px;
   height:16px;
 }
+
+/* ---------- একাধিক ছবির গ্যালারি গ্রিড ---------- */
+.post-images-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:2px;
+  margin-bottom:2px;
+}
+.post-images-grid-item{
+  aspect-ratio: 1 / 1;
+  background-size:cover;
+  background-position:center;
+  position:relative;
+}
+.post-images-grid-more{
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  font-size:20px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* ---------- ছবি আপলোড থাম্বনেইল প্রিভিউ (create-post.html) ---------- */
+.image-thumbs-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
+.image-thumb{
+  width:72px;
+  height:72px;
+  border-radius:var(--radius-sm);
+  background-size:cover;
+  background-position:center;
+  position:relative;
+}
+.image-thumb .thumb-remove{
+  position:absolute;
+  top:-6px;
+  right:-6px;
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:#E5484D;
+  color:#fff;
+  font-size:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  border:2px solid #fff;
+}

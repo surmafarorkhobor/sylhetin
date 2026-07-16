@@ -200,6 +200,26 @@ function findUserIdByName(name) {
     return null;
 }
 
+/** একাধিক ছবির জন্য গ্যালারি HTML বানানো (১টা হলে ফুল-উইথ, একাধিক হলে গ্রিড) */
+function buildImagesGridHtml(images) {
+    if (!images || images.length === 0) return '';
+    if (images.length === 1) {
+        return `<img src="${images[0]}" style="width:100%; display:block; margin-bottom:2px;">`;
+    }
+    const shown = images.slice(0, 4);
+    let html = '<div class="post-images-grid" style="--count:' + shown.length + '">';
+    shown.forEach(function (img, i) {
+        const isLastWithMore = (i === 3 && images.length > 4);
+        html += `<div class="post-images-grid-item" style="background-image:url('${img}')">`;
+        if (isLastWithMore) {
+            html += `<span class="post-images-grid-more">+${images.length - 4}</span>`;
+        }
+        html += `</div>`;
+    });
+    html += '</div>';
+    return html;
+}
+
 // ---------- একটা পোস্ট কার্ডের HTML বানানোর জেনেরিক ফাংশন ----------
 // reusable for বন্ধুর পোস্ট, মজলিসের পোস্ট, নিউজ পেজের পোস্ট, সেভ করা পোস্ট — সব জায়গায়
 function buildFeedCardHtml(opts) {
@@ -214,7 +234,7 @@ function buildFeedCardHtml(opts) {
         ? `<a href="${opts.linkHref}" style="display:block; color:inherit; text-decoration:none;">${bodyInner}</a>`
         : bodyInner;
 
-    const mediaHtml = opts.imageHtml || '';
+    const mediaHtml = opts.imageHtml || buildImagesGridHtml(opts.images) || '';
     const userIdAttr = opts.userId ? ` data-user-id="${opts.userId}"` : '';
 
     return `
@@ -885,5 +905,6 @@ window.Sylhetin = {
     getMajlisPosts: getMajlisPosts,
     getNewsPagePosts: getNewsPagePosts,
     buildFeedCardHtml: buildFeedCardHtml,
+    buildImagesGridHtml: buildImagesGridHtml,
     restoreSaveStates: restoreSaveStates
 };

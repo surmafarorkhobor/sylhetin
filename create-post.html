@@ -6,7 +6,7 @@
     <title>নতুন পোস্ট | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 <div class="page-wrap">
@@ -49,11 +49,8 @@
 
             <textarea id="postText" placeholder="আফনার মনর কতা এইঠে লেখউক্কা..." style="width: 100%; height: 90px;"></textarea>
 
-            <!-- ছবি প্রিভিউ -->
-            <div id="imagePreviewBox" style="display:none; margin-top:10px; position:relative;">
-                <img id="imagePreview" src="" style="width:100%; border-radius:var(--radius-sm); display:block;">
-                <button type="button" class="media-remove-btn" id="removeImageBtn">✕</button>
-            </div>
+            <!-- ছবি থাম্বনেইল প্রিভিউ (একাধিক) -->
+            <div id="imageThumbsRow" class="image-thumbs-row"></div>
 
             <!-- ভিডিও প্রিভিউ -->
             <div id="videoPreviewBox" style="display:none; margin-top:10px; position:relative;">
@@ -69,11 +66,11 @@
                 <button type="button" id="removePollBtn" class="media-remove-btn" style="position:static; margin-top:8px; width:100%; border-radius:var(--radius-sm); background:#E5484D;">✕ জরিপ বাদ দাও</button>
             </div>
 
-            <input type="file" id="postImageInput" accept="image/*" style="display:none">
+            <input type="file" id="postImageInput" accept="image/*" multiple style="display:none">
             <input type="file" id="postVideoInput" accept="video/*" style="display:none">
 
             <div class="composer-tools" id="cpToolsRow" style="display:flex; gap:16px; margin-top:12px; padding-top:10px; border-top:1px solid var(--border);">
-                <label for="postImageInput" class="composer-tool-btn">🖼️ ছবি</label>
+                <label for="postImageInput" class="composer-tool-btn">🖼️ ছবি (৬টা পর্যন্ত)</label>
                 <label for="postVideoInput" class="composer-tool-btn" id="cpVideoLabel">🎬 ভিডিও</label>
                 <span class="composer-tool-btn" id="pollToggleBtn">📊 জরিপ</span>
             </div>
@@ -94,7 +91,7 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=14"></script>
+<script src="app.js?v=15"></script>
 <script>
     const params = new URLSearchParams(window.location.search);
     const context = params.get('context'); // null | 'majlis' | 'newspage'
@@ -125,34 +122,58 @@
         }
     })();
 
-    let selectedImageData = null;
+    let selectedImages = []; // একাধিক ছবির base64 লিস্ট
     let selectedVideoData = null;
+    const MAX_IMAGES = 6;
 
-    function hideAllMediaBoxes() {
-        document.getElementById('imagePreviewBox').style.display = 'none';
+    function renderImageThumbs() {
+        const row = document.getElementById('imageThumbsRow');
+        row.innerHTML = selectedImages.map(function (img, i) {
+            return `<div class="image-thumb" style="background-image:url('${img}')">
+                        <span class="thumb-remove" data-index="${i}">✕</span>
+                    </div>`;
+        }).join('');
+        row.querySelectorAll('.thumb-remove').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                selectedImages.splice(parseInt(btn.getAttribute('data-index'), 10), 1);
+                renderImageThumbs();
+            });
+        });
+    }
+
+    function hideVideoAndPoll() {
         document.getElementById('videoPreviewBox').style.display = 'none';
         document.getElementById('pollBuilderBox').style.display = 'none';
     }
 
-    // ---------- ছবি ----------
+    // ---------- ছবি (একাধিক) ----------
     document.getElementById('postImageInput').addEventListener('change', function () {
-        const file = this.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function (e) {
-            selectedVideoData = null;
-            document.getElementById('postVideoInput').value = '';
-            hideAllMediaBoxes();
-            selectedImageData = e.target.result;
-            document.getElementById('imagePreview').src = selectedImageData;
-            document.getElementById('imagePreviewBox').style.display = 'block';
-        };
-        reader.readAsDataURL(file);
-    });
-    document.getElementById('removeImageBtn').addEventListener('click', function () {
-        selectedImageData = null;
-        document.getElementById('postImageInput').value = '';
-        document.getElementById('imagePreviewBox').style.display = 'none';
+        const files = Array.from(this.files || []);
+        if (files.length === 0) return;
+
+        selectedVideoData = null;
+        document.getElementById('postVideoInput').value = '';
+        document.getElementById('videoPreviewBox').style.display = 'none';
+        document.getElementById('pollBuilderBox').style.display = 'none';
+
+        const room = MAX_IMAGES - selectedImages.length;
+        if (room <= 0) {
+            alert('সর্বোচ্চ ' + MAX_IMAGES + 'টা ছবি যোগ করা যাবে।');
+            this.value = '';
+            return;
+        }
+        const toAdd = files.slice(0, room);
+        let loaded = 0;
+        toAdd.forEach(function (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                selectedImages.push(e.target.result);
+                loaded++;
+                if (loaded === toAdd.length) renderImageThumbs();
+            };
+            reader.readAsDataURL(file);
+        });
+        this.value = '';
     });
 
     // ---------- ভিডিও ----------
@@ -166,9 +187,9 @@
         }
         const reader = new FileReader();
         reader.onload = function (e) {
-            selectedImageData = null;
-            document.getElementById('postImageInput').value = '';
-            hideAllMediaBoxes();
+            selectedImages = [];
+            renderImageThumbs();
+            document.getElementById('pollBuilderBox').style.display = 'none';
             selectedVideoData = e.target.result;
             document.getElementById('videoPreview').src = selectedVideoData;
             document.getElementById('videoPreviewBox').style.display = 'block';
@@ -198,11 +219,11 @@
     }
 
     document.getElementById('pollToggleBtn').addEventListener('click', function () {
-        selectedImageData = null;
+        selectedImages = [];
+        renderImageThumbs();
         selectedVideoData = null;
-        document.getElementById('postImageInput').value = '';
         document.getElementById('postVideoInput').value = '';
-        hideAllMediaBoxes();
+        hideVideoAndPoll();
         document.getElementById('pollOptionsList').innerHTML = '';
         addPollOptionRow('');
         addPollOptionRow('');
@@ -224,7 +245,7 @@
 
         // ---------- মজলিসে পোস্ট করা ----------
         if (context === 'majlis' && targetId) {
-            if (text === '' && !selectedImageData && !selectedVideoData) {
+            if (text === '' && selectedImages.length === 0 && !selectedVideoData) {
                 alert('দয়া করে কিছু লিখুন বা ছবি/ভিডিও যোগ করুন!');
                 return;
             }
@@ -236,7 +257,7 @@
                 avatarLetter: '👤',
                 time: 'এইমাত্র',
                 text: text,
-                image: selectedImageData || undefined,
+                images: selectedImages.length ? selectedImages : undefined,
                 video: selectedVideoData || undefined
             });
             localStorage.setItem(key, JSON.stringify(list));
@@ -264,7 +285,7 @@
                 category: category,
                 publishDate: 'এইমাত্র',
                 reporterName: reporter || null,
-                image: selectedImageData || undefined
+                images: selectedImages.length ? selectedImages : undefined
             });
             localStorage.setItem(key, JSON.stringify(list));
             if (window.Sylhetin) window.Sylhetin.showToast('খবর পাবলিশ করা হয়েছে!');
@@ -289,13 +310,13 @@
             pollData = { question: question, options: options };
         }
 
-        if (text === "" && !selectedImageData && !selectedVideoData && !pollData) {
+        if (text === "" && selectedImages.length === 0 && !selectedVideoData && !pollData) {
             alert('দয়া করে কিছু লিখুন, ছবি/ভিডিও যোগ করুন, বা জরিপ বানান!');
             return;
         }
 
         localStorage.setItem('myNewPost', text);
-        selectedImageData ? localStorage.setItem('myNewPostImage', selectedImageData) : localStorage.removeItem('myNewPostImage');
+        selectedImages.length ? localStorage.setItem('myNewPostImages', JSON.stringify(selectedImages)) : localStorage.removeItem('myNewPostImages');
         selectedVideoData ? localStorage.setItem('myNewPostVideo', selectedVideoData) : localStorage.removeItem('myNewPostVideo');
         pollData ? localStorage.setItem('myNewPostPoll', JSON.stringify(pollData)) : localStorage.removeItem('myNewPostPoll');
 

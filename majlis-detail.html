@@ -6,7 +6,7 @@
     <title>মজলিস | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 <div class="page-wrap">
@@ -33,7 +33,7 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=14"></script>
+<script src="app.js?v=15"></script>
 <script>
     (function () {
         const params = new URLSearchParams(window.location.search);
@@ -89,7 +89,7 @@
         posts.forEach(function (post) {
             const authorUserId = (window.Sylhetin && window.Sylhetin.findUserIdByName) ? window.Sylhetin.findUserIdByName(post.author) : null;
             const userIdAttr = authorUserId ? ` data-user-id="${authorUserId}"` : '';
-            const imageHtml = post.image ? `<img src="${post.image}" style="width:100%; display:block; margin-bottom:2px;">` : '';
+            const imageHtml = window.Sylhetin.buildImagesGridHtml(post.images);
             const videoHtml = post.video ? `<video src="${post.video}" controls style="width:100%; display:block; margin-bottom:2px; background:#000;"></video>` : '';
             html += `
                 <div class="card post" data-post-id="${post.fullId}">

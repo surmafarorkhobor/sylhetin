@@ -6,7 +6,7 @@
     <title>সেভ করা পোস্ট | Sylhetin</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=14">
+    <link rel="stylesheet" href="style.css?v=15">
 </head>
 <body>
 <div class="page-wrap">
@@ -33,7 +33,7 @@
     <div class="toast" id="toast"></div>
 
 </div>
-<script src="app.js?v=14"></script>
+<script src="app.js?v=15"></script>
 <script>
     (function () {
         const S = window.Sylhetin;
@@ -67,7 +67,8 @@
                         name: post.author,
                         badge: '<span class="badge">👥 মজলিস</span>',
                         metaLine: post.time + ' · <a href="majlis-detail.html?id=' + majId + '" style="color:var(--green-deep); font-weight:600;">' + m.name + '</a>',
-                        bodyText: post.text
+                        bodyText: post.text,
+                        images: post.images
                     });
                 }
             });
@@ -92,7 +93,8 @@
                         headline: post.headline,
                         bodyText: post.shortDescription,
                         headHref: 'news-page-detail.html?id=' + pageId,
-                        linkHref: 'news-detail.html?id=' + post.fullId
+                        linkHref: 'news-detail.html?id=' + post.fullId,
+                        images: post.images
                     });
                 }
             });
